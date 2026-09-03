@@ -1,0 +1,28 @@
+name: Feature request
+description: Propose a focused improvement to ARENA GRID.
+title: '[Feature]: '
+labels: [enhancement, triage]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or opportunity
+      description: Which user or operator need is not met today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed outcome
+      description: Describe the desired behavior, not only a specific implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and tradeoffs
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and compatibility
+      description: Note API, data model, migration, security, or rollout implications.

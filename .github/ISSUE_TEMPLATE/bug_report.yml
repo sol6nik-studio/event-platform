@@ -1,0 +1,45 @@
+name: Bug report
+description: Report a reproducible defect. Do not disclose vulnerabilities here.
+title: '[Bug]: '
+labels: [bug, triage]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Thanks for the report. For suspected vulnerabilities, stop here and follow SECURITY.md
+        instead of creating a public issue.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Provide the smallest safe set of steps, without secrets or personal data.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: v1.2.3 or commit SHA
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, browser, Node.js version, and deployment type where relevant.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched for an existing issue.
+          required: true
+        - label: This report contains no credentials, personal data, or vulnerability details.
+          required: true
