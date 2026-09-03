@@ -17,6 +17,7 @@
     "@fastify/cookie": "catalog:",
     "@fastify/cors": "catalog:",
     "@fastify/rate-limit": "catalog:",
+    "@fastify/static": "catalog:",
     "@nestjs/common": "catalog:",
     "@nestjs/core": "catalog:",
     "@nestjs/platform-fastify": "catalog:",
