@@ -1,0 +1,19 @@
+{
+  "name": "@arena-grid/worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit false",
+    "dev": "tsc -p tsconfig.json --noEmit --watch --preserveWatchOutput",
+    "lint": "eslint src --max-warnings=0",
+    "test": "node --test",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@arena-grid/config": "workspace:*",
+    "bullmq": "catalog:",
+    "ioredis": "catalog:",
+    "@arena-grid/logger": "workspace:*"
+  }
+}

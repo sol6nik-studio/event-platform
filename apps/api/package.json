@@ -1,0 +1,33 @@
+{
+  "name": "@arena-grid/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit false",
+    "dev": "tsc -p tsconfig.json --noEmit --watch --preserveWatchOutput",
+    "lint": "eslint src --max-warnings=0",
+    "test": "node --test",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@arena-grid/config": "workspace:*",
+    "@arena-grid/contracts": "workspace:*",
+    "@arena-grid/database": "workspace:*",
+    "@fastify/cookie": "catalog:",
+    "@fastify/cors": "catalog:",
+    "@fastify/rate-limit": "catalog:",
+    "@nestjs/common": "catalog:",
+    "@nestjs/core": "catalog:",
+    "@nestjs/platform-fastify": "catalog:",
+    "@nestjs/swagger": "catalog:",
+    "argon2": "catalog:",
+    "class-transformer": "catalog:",
+    "class-validator": "catalog:",
+    "fastify": "catalog:",
+    "jose": "catalog:",
+    "reflect-metadata": "catalog:",
+    "rxjs": "catalog:",
+    "zod": "catalog:"
+  }
+}

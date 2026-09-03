@@ -1,0 +1,17 @@
+FROM node:24-alpine AS base
+WORKDIR /app
+RUN corepack enable
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml turbo.json tsconfig.base.json ./
+COPY apps/web/package.json apps/web/package.json
+COPY packages/contracts/package.json packages/contracts/package.json
+RUN pnpm install --frozen-lockfile
+COPY . .
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+RUN pnpm --filter @arena-grid/contracts build && pnpm --filter @arena-grid/web build
+RUN cp -r apps/web/.next/static apps/web/.next/standalone/apps/web/.next/static \
+  && if [ -d apps/web/public ]; then cp -r apps/web/public apps/web/.next/standalone/apps/web/public; fi
+WORKDIR /app/apps/web/.next/standalone/apps/web
+ENV HOSTNAME=0.0.0.0
+ENV PORT=3000
+CMD ["node", "server.js"]

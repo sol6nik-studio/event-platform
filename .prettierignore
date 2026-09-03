@@ -1,0 +1,11 @@
+.next
+.turbo
+coverage
+dist
+docs
+generated
+node_modules
+apps/web/next-env.d.ts
+playwright-report
+pnpm-lock.yaml
+test-results
