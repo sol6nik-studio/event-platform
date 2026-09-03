@@ -26,6 +26,8 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @arena-grid/database db:generate
+      - run: pnpm --filter @arena-grid/database db:validate
       - run: pnpm lint
       - run: pnpm typecheck
       - run: pnpm test
