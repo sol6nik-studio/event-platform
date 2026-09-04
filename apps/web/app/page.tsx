@@ -1,162 +1,206 @@
 import Link from 'next/link';
-import { ArrowRight, Radio, ShieldCheck, Swords, Trophy } from 'lucide-react';
-
-const tournaments = [
-  {
-    game: 'Dota 2',
-    title: 'Northern Nexus Cup',
-    meta: 'Double Elim · 5v5',
-    date: 'Tomorrow · 18:00',
-    status: 'Registration open',
-  },
-  {
-    game: 'League of Legends',
-    title: 'Rift Challengers',
-    meta: 'Round Robin · 5v5',
-    date: 'Sep 12 · 16:00',
-    status: 'Registration open',
-  },
-  {
-    game: 'Brawl Stars',
-    title: 'Triple Strike Open',
-    meta: 'Single Elim · 3v3',
-    date: 'Sep 14 · 12:00',
-    status: 'Published',
-  },
-  {
-    game: 'Clash Royale',
-    title: 'Crown Masters',
-    meta: 'Single Elim · 1v1',
-    date: 'Completed',
-    status: 'Final results',
-  },
-];
+import {
+  ArrowRight,
+  CalendarCheck2,
+  CheckCircle2,
+  Radio,
+  ShieldCheck,
+  Sparkles,
+  Trophy,
+  UsersRound,
+} from 'lucide-react';
+import { SiteHeader } from '../components/site-header';
+import { TeamMark } from '../components/team-mark';
+import { TournamentCard } from '../components/tournament-card';
+import {
+  completedTournaments,
+  getTeam,
+  liveTournament,
+  upcomingTournaments,
+} from '../lib/mock-data';
 
 export default function HomePage() {
+  const liveMatch = liveTournament?.bracket
+    .flatMap((stage) => stage.rounds)
+    .flatMap((round) => round.matches)
+    .find((match) => match.status === 'LIVE');
+
   return (
     <main className="shell">
-      <div className="container">
-        <nav className="nav">
-          <Link className="brand" href="/">
-            <span>ARENA</span> GRID
-          </Link>
-          <div className="navLinks">
-            <Link href="/tournaments">Find tournaments</Link>
-            <Link href="/dashboard">Dashboard</Link>
-            <Link href="/organizer">Organizer Studio</Link>
+      <SiteHeader active="home" />
+      <section className="homeHero pageContainer">
+        <div className="heroCopy">
+          <div className="eyebrow">
+            <Sparkles size={14} /> Соревнуйся. Побеждай. Запоминай.
           </div>
-          <Link className="button secondary" href="/tournaments">
-            Explore <ArrowRight size={16} />
-          </Link>
-        </nav>
-        <section className="hero">
-          <div>
-            <div className="eyebrow">Competitive play, organized</div>
-            <h1>
-              Your next
-              <br />
-              <span style={{ color: 'var(--cyan)' }}>arena</span> awaits.
-            </h1>
-            <p>
-              Run the full tournament journey in one control room — from roster lock and check-in to
-              bracket progression and verified results.
-            </p>
-            <div className="actions">
-              <Link className="button primary" href="/tournaments">
-                Find a tournament <ArrowRight size={16} />
-              </Link>
-              <Link className="button secondary" href="/organizer/tournaments/new">
-                Create tournament
-              </Link>
-            </div>
-          </div>
-          <div className="broadcast">
-            <div className="broadcastHeader">
-              <span className="live">
-                <Radio size={14} /> LIVE MATCH
-              </span>
-              <span style={{ color: 'var(--muted)', fontSize: 12 }}>Upper Bracket · R2</span>
-            </div>
-            <div className="matchLine" style={{ margin: '30px 0 20px' }}>
-              <div>
-                <strong>Northern Nexus</strong>
-                <div style={{ color: 'var(--muted)', fontSize: 12, marginTop: 8 }}>AURORA FIVE</div>
-              </div>
-              <div className="score">1 : 0</div>
-              <div style={{ textAlign: 'right' }}>
-                <strong>Vertex Core</strong>
-                <div style={{ color: 'var(--muted)', fontSize: 12, marginTop: 8 }}>VCOR</div>
-              </div>
-            </div>
-            <div
-              style={{
-                borderTop: '1px solid #ffffff14',
-                paddingTop: 14,
-                color: 'var(--muted)',
-                fontSize: 12,
-              }}
-            >
-              Game 2 · Dota 2 · Check-in verified
-            </div>
-          </div>
-        </section>
-        <section className="section">
-          <div className="sectionHeader">
-            <div>
-              <h2>Upcoming tournaments</h2>
-              <p>Pick a game. Build your run.</p>
-            </div>
-            <Link href="/tournaments" className="button secondary">
-              View catalog <ArrowRight size={15} />
+          <h1>
+            Твоя команда.
+            <br />
+            Твоя <span>арена.</span>
+          </h1>
+          <p>
+            Находи турниры, собирай состав и следи за каждым матчем в сетке. Всё необходимое — от
+            регистрации до кубка — в одном месте.
+          </p>
+          <div className="heroActions">
+            <Link className="button buttonPrimary buttonLarge" href="/tournaments">
+              Найти турнир <ArrowRight size={18} />
+            </Link>
+            <Link className="button buttonSecondary buttonLarge" href="/organizer/tournaments/new">
+              Создать свой
             </Link>
           </div>
-          <div className="cards">
-            {tournaments.map((item) => (
-              <Link
-                href={`/tournaments/${item.title.toLowerCase().replaceAll(' ', '-')}`}
-                className="card"
-                key={item.title}
-              >
-                <div className="game">{item.game}</div>
-                <h3>{item.title}</h3>
-                <div className="meta">
-                  <span>{item.meta}</span>
-                  <span className="status">{item.status}</span>
-                </div>
-                <div className="meta" style={{ marginTop: 12 }}>
-                  <span>{item.date}</span>
-                  <Trophy size={14} />
-                </div>
-              </Link>
-            ))}
+          <div className="trustLine">
+            <span>
+              <CheckCircle2 size={15} /> Проверенные результаты
+            </span>
+            <span>
+              <ShieldCheck size={15} /> Честные сетки
+            </span>
           </div>
-        </section>
-        <section className="section" style={{ paddingTop: 0 }}>
-          <div className="cards">
-            <div className="card">
-              <Swords color="var(--cyan)" />
-              <h3>Built for the match</h3>
-              <div className="meta">
-                <span>Rooms, results, disputes</span>
+        </div>
+        {liveTournament && liveMatch && (
+          <Link className="livePanel" href={`/tournaments/${liveTournament.slug}?tab=bracket`}>
+            <div className="livePanelTop">
+              <div className="liveLabel">
+                <Radio size={14} /> LIVE
               </div>
+              <span>{liveMatch.code}</span>
             </div>
-            <div className="card">
-              <ShieldCheck color="var(--green)" />
-              <h3>Verified outcomes</h3>
-              <div className="meta">
-                <span>Evidence + audit trail</span>
+            <div className="liveGame">{liveTournament.game}</div>
+            <h2>{liveTournament.name}</h2>
+            <div className="liveMatchup">
+              <TeamMark team={getTeam(liveTournament, liveMatch.first.teamId)} />
+              <div className="heroScore">
+                <strong>{liveMatch.first.score ?? 0}</strong>
+                <span>:</span>
+                <strong>{liveMatch.second.score ?? 0}</strong>
               </div>
+              <TeamMark team={getTeam(liveTournament, liveMatch.second.teamId)} />
             </div>
-            <div className="card">
-              <Radio color="var(--violet)" />
-              <h3>Broadcast-ready</h3>
-              <div className="meta">
-                <span>Live bracket updates</span>
-              </div>
+            <div className="livePanelBottom">
+              <span>Карта 2 · Best of {liveMatch.bestOf}</span>
+              <span>
+                Смотреть матч <ArrowRight size={15} />
+              </span>
             </div>
+          </Link>
+        )}
+      </section>
+
+      <section className="homeMetrics pageContainer" aria-label="Показатели платформы">
+        <div>
+          <strong>42</strong>
+          <span>активных турнира</span>
+        </div>
+        <div>
+          <strong>1 280</strong>
+          <span>команд на платформе</span>
+        </div>
+        <div>
+          <strong>8 640</strong>
+          <span>матчей проведено</span>
+        </div>
+        <div>
+          <strong>24/7</strong>
+          <span>актуальные сетки</span>
+        </div>
+      </section>
+
+      <section className="contentSection pageContainer">
+        <div className="sectionHeading">
+          <div>
+            <span className="sectionNumber">01 · БЛИЖАЙШИЕ</span>
+            <h2>Новые турниры</h2>
+            <p>Регистрация уже открыта — выбери дисциплину и займи место в сетке.</p>
           </div>
-        </section>
-      </div>
+          <Link className="textLink" href="/tournaments">
+            Все турниры <ArrowRight size={16} />
+          </Link>
+        </div>
+        <div className="tournamentGrid">
+          {upcomingTournaments.map((tournament, index) => (
+            <TournamentCard tournament={tournament} featured={index === 0} key={tournament.slug} />
+          ))}
+        </div>
+      </section>
+
+      <section className="featureBand">
+        <div className="pageContainer featureGrid">
+          <div className="featureIntro">
+            <span className="sectionNumber">02 · ОДИН КОНТУР</span>
+            <h2>От заявки до финала — без хаоса</h2>
+            <p>
+              Участники и организаторы видят одинаковое состояние турнира, сроки и следующий шаг.
+            </p>
+          </div>
+          <div className="featureCard">
+            <UsersRound size={22} />
+            <span>01</span>
+            <h3>Собери команду</h3>
+            <p>Пригласи игроков, проверь игровые аккаунты и зафиксируй состав.</p>
+          </div>
+          <div className="featureCard">
+            <CalendarCheck2 size={22} />
+            <span>02</span>
+            <h3>Зарегистрируйся</h3>
+            <p>Выбери турнир, подтверди правила и не пропусти check-in.</p>
+          </div>
+          <div className="featureCard">
+            <Trophy size={22} />
+            <span>03</span>
+            <h3>Пройди сетку</h3>
+            <p>Играй матчи, подтверждай счёт и следи за продвижением в реальном времени.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="contentSection pageContainer pastSection">
+        <div className="sectionHeading">
+          <div>
+            <span className="sectionNumber">03 · АРХИВ</span>
+            <h2>Недавние чемпионы</h2>
+          </div>
+        </div>
+        {completedTournaments.map((tournament) => {
+          const champion = getTeam(tournament, tournament.placements[0]?.teamId);
+          return (
+            <Link
+              className="pastTournament"
+              href={`/tournaments/${tournament.slug}`}
+              key={tournament.slug}
+            >
+              <div className={`pastArt tone-${tournament.accent}`}>
+                <Trophy size={30} />
+              </div>
+              <div>
+                <span>{tournament.game}</span>
+                <h3>{tournament.name}</h3>
+              </div>
+              <div className="pastChampion">
+                <span>Чемпион</span>
+                <strong>{champion?.name}</strong>
+              </div>
+              <div className="pastPrize">
+                <span>{tournament.prizeLabel}</span>
+                <strong>{tournament.prizePool}</strong>
+              </div>
+              <ArrowRight size={20} />
+            </Link>
+          );
+        })}
+      </section>
+
+      <footer className="siteFooter">
+        <div className="pageContainer footerInner">
+          <span>© 2026 ARENA GRID</span>
+          <span>Турнирная платформа для игроков и организаторов</span>
+          <div>
+            <Link href="/tournaments">Турниры</Link>
+            <Link href="/auth/sign-in">Войти</Link>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
