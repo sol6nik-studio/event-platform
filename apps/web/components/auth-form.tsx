@@ -14,6 +14,7 @@ import {
   Mail,
   UserRound,
 } from 'lucide-react';
+import { storeBrowserSession } from '../lib/browser-session';
 
 interface AuthFormProps {
   mode: 'sign-in' | 'sign-up';
@@ -85,12 +86,27 @@ export function AuthForm({ mode }: AuthFormProps) {
         return;
       }
       const body = (await response.json()) as AuthResponse;
-      if (!body.accessToken || !body.user) {
+      if (
+        !body.accessToken ||
+        !body.user ||
+        typeof body.user.username !== 'string' ||
+        typeof body.user.email !== 'string'
+      ) {
         setError('Сервер вернул неполные данные сессии.');
         return;
       }
-      localStorage.setItem('arena-grid-access-token', body.accessToken);
-      localStorage.setItem('arena-grid-user', JSON.stringify(body.user));
+      const sessionUser = {
+        username: body.user.username,
+        email: body.user.email,
+        ...(typeof body.user.id === 'string' ? { id: body.user.id } : {}),
+        ...(Array.isArray(body.user.roles) ? { roles: body.user.roles } : {}),
+      };
+      if (!storeBrowserSession(body.accessToken, sessionUser)) {
+        setError(
+          'Браузер запретил сохранить сессию. Разрешите локальное хранилище и повторите вход.',
+        );
+        return;
+      }
       router.push('/profile');
     } catch {
       setError(

@@ -1,0 +1,300 @@
+/* Account and profile */
+.accountShell {
+  min-height: 100vh;
+  background: var(--color-bg-soft);
+}
+
+.accountHeader {
+  position: fixed;
+  z-index: 40;
+  inset: 0 0 auto;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 24px;
+  border-bottom: 1px solid var(--color-border);
+  background: rgb(8 11 18 / 94%);
+  backdrop-filter: blur(16px);
+}
+
+.accountHeaderRight,
+.headerUser {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.accountHeaderRight > .iconButton {
+  position: relative;
+}
+
+.notificationDot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--color-bg);
+  border-radius: 50%;
+  background: var(--color-error);
+}
+
+.headerUser {
+  min-width: 154px;
+  margin-left: 6px;
+  padding-left: 14px;
+  border-left: 1px solid var(--color-border);
+}
+
+.headerUser > span:last-child {
+  display: flex;
+  flex-direction: column;
+}
+
+.headerUser strong {
+  font-size: 11px;
+}
+
+.headerUser small {
+  color: var(--color-text-muted);
+  font-size: 9px;
+}
+
+.accountBody {
+  display: grid;
+  grid-template-columns: 224px minmax(0, 1fr);
+  min-height: 100vh;
+  padding-top: 66px;
+}
+
+.accountSidebar {
+  position: fixed;
+  z-index: 20;
+  inset: 66px auto 0 0;
+  width: 224px;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 14px 18px;
+  border-right: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.accountSidebar nav,
+.sidebarBottom {
+  display: grid;
+  gap: 4px;
+}
+
+.accountSidebar a,
+.accountSidebar button {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.accountSidebar a:hover,
+.accountSidebar button:hover {
+  color: var(--color-text-primary);
+  background: var(--color-surface-interactive);
+}
+
+.accountSidebar a.isActive {
+  color: var(--color-primary);
+  border-color: rgb(53 230 255 / 14%);
+  background: rgb(53 230 255 / 7%);
+}
+
+.accountSidebar a b {
+  min-width: 18px;
+  margin-left: auto;
+  padding: 2px 5px;
+  border-radius: 999px;
+  color: var(--color-on-primary);
+  background: var(--color-primary);
+  font-size: 8px;
+  text-align: center;
+}
+
+.sidebarBottom {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.sidebarLogout {
+  width: 100%;
+  border-color: transparent;
+  text-align: left;
+}
+
+.securityNote {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 12px;
+  padding: 11px;
+  border: 1px solid rgb(57 217 138 / 16%);
+  border-radius: var(--radius-sm);
+  color: var(--color-success);
+  background: rgb(57 217 138 / 5%);
+}
+
+.securityNote > span {
+  display: flex;
+  flex-direction: column;
+}
+
+.securityNote strong {
+  font-size: 9px;
+}
+
+.securityNote small {
+  color: var(--color-text-muted);
+  font-size: 8px;
+}
+
+.accountMain {
+  grid-column: 2;
+  width: min(1060px, calc(100% - 64px));
+  margin-inline: auto;
+  padding-block: 52px 96px;
+}
+
+.accountMobileNav {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .accountBody {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+
+  .accountSidebar {
+    width: 72px;
+    align-items: center;
+  }
+
+  .accountSidebar a,
+  .accountSidebar button {
+    width: 44px;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .accountSidebar a span,
+  .accountSidebar a b,
+  .accountSidebar button span,
+  .securityNote span {
+    display: none;
+  }
+
+  .securityNote {
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .accountMain {
+    width: min(100% - 40px, 1060px);
+  }
+}
+
+@media (max-width: 720px) {
+  .accountHeader {
+    height: 62px;
+    padding-inline: 14px;
+  }
+
+  .accountCreate,
+  .headerUser > span:last-child {
+    display: none;
+  }
+
+  .headerUser {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .accountBody {
+    display: block;
+    padding: 62px 0 calc(76px + env(safe-area-inset-bottom));
+  }
+
+  .accountSidebar {
+    display: none;
+  }
+
+  .accountMain {
+    width: calc(100% - 28px);
+    padding-block: 34px 50px;
+  }
+
+  .accountMobileNav {
+    position: fixed;
+    z-index: 60;
+    inset: auto 0 0;
+    min-height: calc(64px + env(safe-area-inset-bottom));
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    padding: 5px 6px max(5px, env(safe-area-inset-bottom));
+    border-top: 1px solid var(--color-border);
+    background: rgb(12 16 25 / 96%);
+    box-shadow: 0 -12px 30px rgb(0 0 0 / 24%);
+    backdrop-filter: blur(16px);
+  }
+
+  .accountMobileNav a {
+    position: relative;
+    min-width: 0;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+    font-size: 7px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .accountMobileNav a::before {
+    content: '';
+    position: absolute;
+    inset: 0 22% auto;
+    height: 2px;
+    border-radius: 0 0 2px 2px;
+    background: transparent;
+  }
+
+  .accountMobileNav a.isActive {
+    color: var(--color-primary);
+    background: rgb(53 230 255 / 5%);
+  }
+
+  .accountMobileNav a.isActive::before {
+    background: var(--color-primary);
+    box-shadow: 0 0 10px rgb(53 230 255 / 35%);
+  }
+
+  .accountMobileNav a span {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .accountMobileNav a b {
+    display: none;
+  }
+}

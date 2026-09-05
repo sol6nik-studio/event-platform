@@ -1,0 +1,647 @@
+/* Player dashboard */
+.dashboardPageHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 28px;
+}
+
+.dashboardPageHead h1 {
+  margin: 8px 0 5px;
+  font-size: clamp(28px, 3.2vw, 38px);
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+}
+
+.dashboardPageHead p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.dashboardPriority {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 20px;
+  padding: 22px;
+  overflow: hidden;
+  border-color: rgb(53 230 255 / 23%);
+  background: linear-gradient(105deg, rgb(53 230 255 / 9%), transparent 48%), var(--color-surface);
+}
+
+.dashboardPriority::after {
+  content: '';
+  position: absolute;
+  width: 170px;
+  height: 170px;
+  right: 120px;
+  border-radius: 50%;
+  background: rgb(53 230 255 / 5%);
+  filter: blur(12px);
+  pointer-events: none;
+}
+
+.priorityMarker {
+  width: 48px;
+  height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(53 230 255 / 30%);
+  border-radius: 12px;
+  color: var(--color-primary);
+  background: rgb(53 230 255 / 8%);
+  box-shadow: 0 0 28px rgb(53 230 255 / 10%);
+}
+
+.dashboardKicker {
+  color: var(--color-primary);
+  font-size: 8px;
+  font-weight: 750;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.priorityCopy h2,
+.dashboardPanelHead h2 {
+  margin: 5px 0 4px;
+  font-size: 17px;
+}
+
+.priorityCopy p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 10px;
+}
+
+.priorityChecks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-top: 11px;
+}
+
+.priorityChecks span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--color-success);
+  font-size: 9px;
+}
+
+.priorityChecks .hasWarning {
+  color: var(--color-warning);
+}
+
+.priorityProgress {
+  position: relative;
+  z-index: 1;
+  width: 68px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: 4px solid rgb(53 230 255 / 18%);
+  border-top-color: var(--color-primary);
+  border-right-color: var(--color-primary);
+  border-radius: 50%;
+  background: var(--color-bg-soft);
+}
+
+.priorityProgress strong {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.priorityProgress span {
+  margin-top: 3px;
+  color: var(--color-text-muted);
+  font-size: 7px;
+  text-transform: uppercase;
+}
+
+.dashboardPriority > .button {
+  position: relative;
+  z-index: 1;
+}
+
+.dashboardPrimaryGrid,
+.dashboardSecondaryGrid {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.dashboardPrimaryGrid {
+  grid-template-columns: minmax(0, 1.28fr) minmax(320px, 0.72fr);
+}
+
+.dashboardSecondaryGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.dashboardPanel {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.dashboardPanelHead {
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dashboardPanelHead h2 {
+  margin-bottom: 0;
+}
+
+.dashboardPanelHead > svg {
+  color: var(--color-primary);
+}
+
+.dashboardStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+  padding: 4px 7px;
+  border-radius: 999px;
+  font-size: 8px;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dashboardStatusReady {
+  color: var(--color-success);
+  background: rgb(57 217 138 / 8%);
+}
+
+.dashboardStatusLive {
+  color: var(--color-error);
+  background: rgb(255 92 112 / 8%);
+}
+
+.dashboardStatusPending {
+  color: var(--color-warning);
+  background: rgb(255 181 71 / 8%);
+}
+
+.dashboardMatchMeta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  padding: 11px 20px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  background: var(--color-bg-soft);
+  font-size: 9px;
+}
+
+.dashboardMatchMeta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dashboardMatchup {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 18px;
+  padding: 28px 20px;
+}
+
+.dashboardTeam {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.dashboardTeam:last-child {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.dashboardTeam > span:last-child,
+.dashboardRosterSummary > div,
+.dashboardTournamentList a > span:nth-child(2),
+.dashboardFeed > div > span:last-child {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboardTeam strong {
+  font-size: 12px;
+}
+
+.dashboardTeam small,
+.dashboardRosterSummary span,
+.dashboardTournamentList small,
+.dashboardFeed small,
+.dashboardTimeline small {
+  color: var(--color-text-muted);
+  font-size: 8px;
+}
+
+.dashboardTeamMark,
+.dashboardGameMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  color: var(--color-primary);
+  border: 1px solid rgb(53 230 255 / 32%);
+  background: rgb(53 230 255 / 7%);
+  font-weight: 800;
+}
+
+.dashboardTeamMark {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  font-size: 10px;
+}
+
+.dashboardTeamMarkCrimson {
+  color: var(--color-error);
+  border-color: rgb(255 92 112 / 32%);
+  background: rgb(255 92 112 / 7%);
+}
+
+.dashboardVersus {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.dashboardVersus span {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.dashboardVersus b {
+  color: var(--color-text-muted);
+  font-size: 8px;
+}
+
+.dashboardPanelFooter {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 20px;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  background: var(--color-bg-soft);
+  font-size: 9px;
+}
+
+.dashboardPanelFooter > span,
+.dashboardPanelFooter a,
+.dashboardTextLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dashboardPanelFooter a,
+.dashboardTextLink {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.dashboardTournamentList a {
+  min-height: 74px;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--color-border);
+  transition: background var(--duration-fast);
+}
+
+.dashboardTournamentList a:hover {
+  background: var(--color-surface-interactive);
+}
+
+.dashboardTournamentList strong,
+.dashboardRosterSummary strong,
+.dashboardFeed strong,
+.dashboardTimeline strong {
+  overflow: hidden;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dashboardGameMark {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  font-size: 9px;
+}
+
+.dashboardGameMarkViolet {
+  color: #b69cff;
+  border-color: rgb(139 92 246 / 40%);
+  background: rgb(139 92 246 / 8%);
+}
+
+.dashboardRosterSummary {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  padding: 20px;
+}
+
+.dashboardAvatarStack {
+  display: flex;
+  padding: 0 20px 17px 29px;
+}
+
+.dashboardAvatarStack span {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -9px;
+  border: 2px solid var(--color-surface);
+  border-radius: 50%;
+  color: var(--color-text-secondary);
+  background: var(--color-surface-interactive);
+  font-size: 7px;
+  font-weight: 800;
+}
+
+.dashboardAvatarStack .isMore {
+  color: var(--color-primary);
+}
+
+.dashboardTextLink {
+  min-height: 47px;
+  justify-content: space-between;
+  padding: 10px 20px;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg-soft);
+  font-size: 9px;
+}
+
+.dashboardTimeline {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 11px 20px 13px;
+  list-style: none;
+}
+
+.dashboardTimeline li {
+  position: relative;
+  min-height: 57px;
+  display: grid;
+  grid-template-columns: 50px minmax(0, 1fr);
+  gap: 11px;
+  padding-top: 10px;
+}
+
+.dashboardTimeline li::before {
+  content: '';
+  position: absolute;
+  width: 1px;
+  inset: 27px auto -8px 44px;
+  background: var(--color-border);
+}
+
+.dashboardTimeline li:last-child::before {
+  display: none;
+}
+
+.dashboardTimeline li > span {
+  position: relative;
+  color: var(--color-text-muted);
+  font-size: 8px;
+  text-transform: uppercase;
+}
+
+.dashboardTimeline li > span::after {
+  content: '';
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  top: 4px;
+  right: 2px;
+  border: 2px solid var(--color-surface);
+  border-radius: 50%;
+  background: var(--color-border-strong);
+}
+
+.dashboardTimeline li.isCurrent > span,
+.dashboardTimeline li.isCurrent strong {
+  color: var(--color-primary);
+}
+
+.dashboardTimeline li.isCurrent > span::after {
+  background: var(--color-primary);
+  box-shadow: 0 0 12px rgb(53 230 255 / 40%);
+}
+
+.dashboardTimeline div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboardFeed {
+  padding-inline: 20px;
+}
+
+.dashboardFeed > div {
+  min-height: 61px;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dashboardFeed > div:last-child {
+  border-bottom: 0;
+}
+
+.feedIcon {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9px;
+  color: var(--color-primary);
+  background: rgb(53 230 255 / 7%);
+}
+
+.feedIconWarning {
+  color: var(--color-warning);
+  background: rgb(255 181 71 / 7%);
+}
+
+.feedIconSuccess {
+  color: var(--color-success);
+  background: rgb(57 217 138 / 7%);
+}
+
+@media (max-width: 1120px) {
+  .dashboardPrimaryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboardSecondaryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboardFeedPanel {
+    grid-column: 1 / -1;
+  }
+
+  .dashboardFeed {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    padding-block: 14px;
+  }
+
+  .dashboardFeed > div {
+    border: 0;
+  }
+}
+
+@media (max-width: 820px) {
+  .dashboardPriority {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .dashboardPriority > .button {
+    grid-column: 2 / -1;
+    justify-self: start;
+  }
+
+  .dashboardSecondaryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboardFeedPanel {
+    grid-column: auto;
+  }
+
+  .dashboardFeed {
+    display: block;
+    padding-block: 0;
+  }
+
+  .dashboardFeed > div {
+    border-bottom: 1px solid var(--color-border);
+  }
+}
+
+@media (max-width: 720px) {
+  .dashboardPageHead {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .dashboardPageHead .button {
+    width: 100%;
+  }
+
+  .dashboardPriority {
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 14px;
+    padding: 17px;
+  }
+
+  .priorityMarker {
+    width: 42px;
+    height: 42px;
+  }
+
+  .priorityProgress {
+    grid-column: 1;
+    grid-row: 2;
+    width: 42px;
+    height: 42px;
+    border-width: 3px;
+  }
+
+  .priorityProgress strong {
+    font-size: 11px;
+  }
+
+  .priorityProgress span {
+    display: none;
+  }
+
+  .dashboardPriority > .button {
+    grid-column: 2;
+    width: 100%;
+  }
+
+  .priorityChecks {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .dashboardMatchup {
+    gap: 10px;
+    padding-inline: 15px;
+  }
+
+  .dashboardTeam {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .dashboardTeam:last-child {
+    align-items: flex-end;
+  }
+
+  .dashboardTeamMark {
+    width: 40px;
+    height: 40px;
+  }
+
+  .dashboardPanelFooter {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .dashboardTournamentList a {
+    grid-template-columns: 38px minmax(0, 1fr) auto;
+  }
+
+  .dashboardTournamentList a > svg {
+    display: none;
+  }
+
+  .dashboardRosterSummary {
+    grid-template-columns: 46px minmax(0, 1fr);
+  }
+
+  .dashboardRosterSummary .dashboardStatus {
+    grid-column: 2;
+    width: fit-content;
+  }
+}

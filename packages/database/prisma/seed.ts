@@ -29,19 +29,32 @@ const prisma = new PrismaClient({ adapter: new PrismaPg({ connectionString }) })
 
 const demoPassword = 'ArenaGridDemo!2026';
 
-async function user(email: string, username: string, roles: PlatformRole[]) {
+async function user(email: string, username: string, roles: PlatformRole[], passwordHash: string) {
   const existing = await prisma.user.findFirst({ where: { email } });
   const record =
-    existing ??
-    (await prisma.user.create({
-      data: {
-        email,
-        username,
-        passwordHash: await argon2.hash(demoPassword),
-        status: UserStatus.ACTIVE,
-        emailVerifiedAt: new Date(),
-      },
-    }));
+    existing === null
+      ? await prisma.user.create({
+          data: {
+            email,
+            username,
+            passwordHash,
+            status: UserStatus.ACTIVE,
+            emailVerifiedAt: new Date(),
+          },
+        })
+      : await prisma.user.update({
+          where: { id: existing.id },
+          data: {
+            username,
+            passwordHash,
+            status: UserStatus.ACTIVE,
+            emailVerifiedAt: existing.emailVerifiedAt ?? new Date(),
+            deletedAt: null,
+          },
+        });
+  await prisma.userRole.deleteMany({
+    where: { userId: record.id, role: { notIn: roles } },
+  });
   for (const role of roles) {
     await prisma.userRole.upsert({
       where: { userId_role: { userId: record.id, role } },
@@ -61,15 +74,39 @@ async function game(slug: string, name: string, provider: GameProvider, platform
 }
 
 async function main() {
-  const [admin, organizer, moderator, captain, player] = await Promise.all([
-    user('admin@arena-grid.local', 'grid_admin', [PlatformRole.PLATFORM_ADMIN]),
-    user('organizer@arena-grid.local', 'nexus_host', [PlatformRole.ORGANIZER]),
-    user('moderator@arena-grid.local', 'referee_one', [PlatformRole.MODERATOR]),
-    user('captain@arena-grid.local', 'north_captain', [
+  const passwordHash = await argon2.hash(demoPassword);
+  const demoUser = (email: string, username: string, roles: PlatformRole[]) =>
+    user(email, username, roles, passwordHash);
+  const [
+    admin,
+    organizer,
+    moderator,
+    captain,
+    player,
+    spectator,
+    crimsonCaptain,
+    crimsonPlayerOne,
+    crimsonPlayerTwo,
+    crimsonPlayerThree,
+    crimsonPlayerFour,
+  ] = await Promise.all([
+    demoUser('admin@arena-grid.local', 'grid_admin', [PlatformRole.PLATFORM_ADMIN]),
+    demoUser('organizer@arena-grid.local', 'nexus_host', [PlatformRole.ORGANIZER]),
+    demoUser('moderator@arena-grid.local', 'referee_one', [PlatformRole.MODERATOR]),
+    demoUser('captain@arena-grid.local', 'north_captain', [
       PlatformRole.PLAYER,
       PlatformRole.TEAM_CAPTAIN,
     ]),
-    user('player@arena-grid.local', 'support_player', [PlatformRole.PLAYER]),
+    demoUser('player@arena-grid.local', 'support_player', [PlatformRole.PLAYER]),
+    demoUser('spectator@arena-grid.local', 'grid_spectator', [PlatformRole.SPECTATOR]),
+    demoUser('captain.crimson@arena-grid.local', 'crimson_captain', [
+      PlatformRole.PLAYER,
+      PlatformRole.TEAM_CAPTAIN,
+    ]),
+    demoUser('player.crimson1@arena-grid.local', 'crimson_entry', [PlatformRole.PLAYER]),
+    demoUser('player.crimson2@arena-grid.local', 'crimson_anchor', [PlatformRole.PLAYER]),
+    demoUser('player.crimson3@arena-grid.local', 'crimson_scout', [PlatformRole.PLAYER]),
+    demoUser('player.crimson4@arena-grid.local', 'crimson_support', [PlatformRole.PLAYER]),
   ]);
 
   const dota = await game('dota-2', 'Dota 2', GameProvider.STEAM_DOTA, 'PC');
@@ -120,6 +157,32 @@ async function main() {
     update: { role: TeamMemberRole.PLAYER, status: 'ACTIVE' },
     create: { teamId: team.id, userId: player.id, role: TeamMemberRole.PLAYER },
   });
+
+  const crimsonTeam =
+    (await prisma.team.findFirst({ where: { slug: 'crimson-guard' } })) ??
+    (await prisma.team.create({
+      data: {
+        createdById: crimsonCaptain.id,
+        organizationId: organization.id,
+        slug: 'crimson-guard',
+        name: 'Crimson Guard',
+        tag: 'CRG',
+      },
+    }));
+  const crimsonRoster = [
+    { userId: crimsonCaptain.id, role: TeamMemberRole.CAPTAIN },
+    { userId: crimsonPlayerOne.id, role: TeamMemberRole.PLAYER },
+    { userId: crimsonPlayerTwo.id, role: TeamMemberRole.PLAYER },
+    { userId: crimsonPlayerThree.id, role: TeamMemberRole.PLAYER },
+    { userId: crimsonPlayerFour.id, role: TeamMemberRole.PLAYER },
+  ];
+  for (const member of crimsonRoster) {
+    await prisma.teamMember.upsert({
+      where: { teamId_userId: { teamId: crimsonTeam.id, userId: member.userId } },
+      update: { role: member.role, status: 'ACTIVE' },
+      create: { teamId: crimsonTeam.id, userId: member.userId, role: member.role },
+    });
+  }
 
   const definitions = [
     {
@@ -302,7 +365,7 @@ async function main() {
   }
 
   console.log(
-    `Seeded demo users. Password for all demo accounts: ${demoPassword}. Admin: ${admin.email}`,
+    `Seeded 11 demo users. Password: ${demoPassword}. Admin: ${admin.email}. Spectator: ${spectator.email}`,
   );
 }
 

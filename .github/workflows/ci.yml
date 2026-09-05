@@ -17,15 +17,16 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v6
+      - uses: actions/checkout@v7.0.0
+      - uses: pnpm/action-setup@v6.0.8
         with:
-          version: 11.9.0
-      - uses: actions/setup-node@v7
+          version: 11.25.0
+      - uses: actions/setup-node@v7.0.0
         with:
-          node-version: 24
+          node-version: 24.20.0
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: pnpm skills:validate
       - run: pnpm --filter @arena-grid/database db:generate
       - run: pnpm --filter @arena-grid/database db:validate
       - run: pnpm lint

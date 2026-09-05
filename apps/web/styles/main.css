@@ -1,0 +1,9 @@
+@import './core.css';
+@import './account-shell.css';
+@import './profile-editor.css';
+@import './dashboard.css';
+@import './catalog.css';
+@import './tournament-detail.css';
+@import './participants.css';
+@import './competition.css';
+@import './auth.css';

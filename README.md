@@ -22,13 +22,22 @@ reserved for `/api/v1/docs`, and Mailpit UI is `http://localhost:8025`.
 
 Demo accounts use password `ArenaGridDemo!2026`:
 
-| Role           | Email                      |
-| -------------- | -------------------------- |
-| Platform admin | admin@arena-grid.local     |
-| Organizer      | organizer@arena-grid.local |
-| Moderator      | moderator@arena-grid.local |
-| Captain        | captain@arena-grid.local   |
-| Player         | player@arena-grid.local    |
+| Role           | Email                            |
+| -------------- | -------------------------------- |
+| Platform admin | admin@arena-grid.local           |
+| Organizer      | organizer@arena-grid.local       |
+| Moderator      | moderator@arena-grid.local       |
+| Captain        | captain@arena-grid.local         |
+| Player         | player@arena-grid.local          |
+| Spectator      | spectator@arena-grid.local       |
+| Captain        | captain.crimson@arena-grid.local |
+| Player         | player.crimson1@arena-grid.local |
+| Player         | player.crimson2@arena-grid.local |
+| Player         | player.crimson3@arena-grid.local |
+| Player         | player.crimson4@arena-grid.local |
+
+The additional Crimson accounts form the five-person `Crimson Guard` demo team. Re-running the seed
+restores every demo account to an active, verified state and resets its password to the value above.
 
 ## Environment configuration
 

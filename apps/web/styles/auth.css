@@ -1,0 +1,470 @@
+/* Authentication */
+.authPage {
+  min-height: 100vh;
+  background: var(--color-bg);
+}
+
+.authTopbar {
+  position: fixed;
+  z-index: 20;
+  inset: 0 0 auto;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 32px;
+  border-bottom: 1px solid rgb(255 255 255 / 8%);
+  background: rgb(8 11 18 / 84%);
+  backdrop-filter: blur(18px);
+}
+
+.backToHome,
+.backToAuth {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.backToHome:hover,
+.backToAuth:hover {
+  color: var(--color-primary);
+}
+
+.authLayout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(420px, 0.9fr) minmax(500px, 1.1fr);
+  padding-top: 70px;
+}
+
+.authVisual {
+  position: relative;
+  min-height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  padding: 68px clamp(36px, 6vw, 96px) 34px;
+  border-right: 1px solid var(--color-border);
+  background:
+    radial-gradient(circle at 50% 28%, rgb(53 230 255 / 13%), transparent 30%),
+    linear-gradient(145deg, rgb(53 230 255 / 4%), transparent 52%), var(--color-bg-soft);
+}
+
+.authVisual::after {
+  content: '';
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  right: -130px;
+  top: 20%;
+  border: 1px solid rgb(53 230 255 / 18%);
+  transform: rotate(45deg);
+}
+
+.authVisualGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgb(53 230 255 / 4%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(53 230 255 / 4%) 1px, transparent 1px);
+  background-size: 54px 54px;
+  mask-image: radial-gradient(circle at 50% 40%, black, transparent 74%);
+}
+
+.authVisualContent,
+.authVisualFoot {
+  position: relative;
+  z-index: 1;
+}
+
+.authVisualContent {
+  max-width: 540px;
+}
+
+.authVisualContent h2 {
+  margin: 18px 0 22px;
+  font-size: clamp(42px, 5vw, 66px);
+  line-height: 1.02;
+  letter-spacing: -0.05em;
+}
+
+.authVisualContent > p {
+  max-width: 510px;
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.authBenefits {
+  display: grid;
+  gap: 2px;
+  margin-top: 42px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-border);
+}
+
+.authBenefits > div {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  align-items: center;
+  gap: 12px;
+  min-height: 72px;
+  padding: 13px 16px;
+  background: rgb(11 16 26 / 92%);
+}
+
+.authBenefits svg {
+  color: var(--color-primary);
+}
+
+.authBenefits span {
+  display: flex;
+  flex-direction: column;
+}
+
+.authBenefits strong {
+  font-size: 12px;
+}
+
+.authBenefits small {
+  margin-top: 3px;
+  color: var(--color-text-muted);
+  font-size: 10px;
+}
+
+.authVisualFoot {
+  display: flex;
+  gap: 24px;
+  margin-top: auto;
+  padding-top: 44px;
+  color: var(--color-text-muted);
+  font-size: 9px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.authFormSide {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 36px;
+}
+
+.authFormSideNarrow .authForm {
+  max-width: 430px;
+}
+
+.authForm {
+  width: min(100%, 460px);
+}
+
+.authFormHeading {
+  margin-bottom: 28px;
+}
+
+.authFormHeading h1,
+.recoverySuccess h1 {
+  margin: 9px 0 9px;
+  font-size: clamp(30px, 4vw, 40px);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.authFormHeading p,
+.recoverySuccess p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.65;
+}
+
+.formAlert {
+  margin-bottom: 18px;
+  padding: 11px 13px;
+  border: 1px solid rgb(255 92 112 / 32%);
+  border-radius: var(--radius-sm);
+  color: #ff9aaa;
+  background: rgb(255 92 112 / 7%);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.fieldGroup {
+  display: block;
+  margin-bottom: 17px;
+}
+
+.fieldGroup > span:first-child,
+.fieldLabelRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 7px;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.fieldLabelRow a {
+  color: var(--color-primary);
+  font-weight: 650;
+}
+
+.fieldGroup > small {
+  display: block;
+  margin-top: 5px;
+  color: var(--color-text-muted);
+  font-size: 9px;
+}
+
+.inputShell {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 13px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  transition:
+    border-color var(--duration-fast),
+    box-shadow var(--duration-fast);
+}
+
+.inputShell:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgb(53 230 255 / 10%);
+}
+
+.inputShell input {
+  min-width: 0;
+  width: 100%;
+  border: 0;
+  outline: 0;
+  color: var(--color-text-primary);
+  background: transparent;
+  font-size: 13px;
+}
+
+.inputShell input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.inputShell button {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border: 0;
+  color: var(--color-text-muted);
+  background: transparent;
+}
+
+.checkField {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  align-items: start;
+  gap: 10px;
+  margin: 4px 0 20px;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  line-height: 1.55;
+  cursor: pointer;
+}
+
+.checkField input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.customCheck {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 4px;
+  color: transparent;
+  background: var(--color-surface);
+}
+
+.checkField input:checked + .customCheck {
+  color: var(--color-on-primary);
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+}
+
+.checkField input:focus-visible + .customCheck {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.checkField a {
+  color: var(--color-primary);
+}
+
+.authSubmit,
+.discordButton {
+  width: 100%;
+  min-height: 50px;
+}
+
+.authSubmit:disabled {
+  cursor: wait;
+  opacity: 0.7;
+  transform: none;
+}
+
+.spinner {
+  animation: spin 900ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.demoAccountButton {
+  width: 100%;
+  margin-top: 10px;
+  border: 0;
+  color: var(--color-primary);
+  background: transparent;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.authDivider {
+  position: relative;
+  margin-block: 22px;
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.authDivider span {
+  position: relative;
+  top: -9px;
+  padding-inline: 10px;
+  color: var(--color-text-muted);
+  background: var(--color-bg);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.discordButton {
+  border-color: #5865f2;
+  color: #b9bfff;
+  background: rgb(88 101 242 / 9%);
+}
+
+.discordButton:hover {
+  background: rgb(88 101 242 / 16%);
+}
+
+.authSwitch {
+  margin: 23px 0 0;
+  color: var(--color-text-muted);
+  text-align: center;
+  font-size: 11px;
+}
+
+.authSwitch a {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.recoverySuccess {
+  text-align: left;
+}
+
+.recoverySuccess > svg {
+  margin-bottom: 28px;
+  color: var(--color-success);
+}
+
+.recoverySuccess p {
+  margin-bottom: 26px;
+}
+
+.recoverySuccess p strong {
+  color: var(--color-text-primary);
+}
+
+.backToAuth {
+  margin-top: 22px;
+}
+
+@media (max-width: 880px) {
+  .authLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .authVisual {
+    min-height: auto;
+    padding-block: 64px;
+    border-right: 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .authVisualContent h2 {
+    font-size: 48px;
+  }
+
+  .authVisualFoot {
+    margin-top: 28px;
+    padding-top: 0;
+  }
+
+  .authFormSide {
+    min-height: auto;
+    padding-block: 64px;
+  }
+}
+
+@media (max-width: 560px) {
+  .authTopbar {
+    height: 62px;
+    padding-inline: 14px;
+  }
+
+  .authTopbar .backToHome {
+    font-size: 0;
+  }
+
+  .authLayout {
+    padding-top: 62px;
+  }
+
+  .authVisual {
+    display: none;
+  }
+
+  .authFormSide {
+    min-height: calc(100vh - 62px);
+    align-items: flex-start;
+    padding: 44px 18px;
+  }
+
+  .authFormHeading h1,
+  .recoverySuccess h1 {
+    font-size: 31px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
+}

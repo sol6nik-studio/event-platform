@@ -1,11 +1,11 @@
 services:
   postgres:
-    image: postgres:17-alpine
+    image: postgres:17.11-alpine3.23
     environment:
       POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER is required}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
       POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB is required}
-    ports: ['${POSTGRES_PORT:-5432}:5432']
+    ports: ['127.0.0.1:${POSTGRES_PORT:-5432}:5432']
     volumes: [arena-grid-postgres:/var/lib/postgresql/data]
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
@@ -13,23 +13,29 @@ services:
       timeout: 3s
       retries: 20
   redis:
-    image: redis:7-alpine
-    ports: ['${REDIS_PORT:-6379}:6379']
+    image: redis:7.4.9-alpine3.21
+    ports: ['127.0.0.1:${REDIS_PORT:-6379}:6379']
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
   minio:
-    image: minio/minio:latest
+    image: minio/minio:RELEASE.2025-09-07T16-13-09Z
     command: server /data --console-address ":9001"
     environment:
       MINIO_ROOT_USER: ${S3_ACCESS_KEY_ID:?S3_ACCESS_KEY_ID is required}
       MINIO_ROOT_PASSWORD: ${S3_SECRET_ACCESS_KEY:?S3_SECRET_ACCESS_KEY is required}
-    ports: ['${MINIO_API_PORT:-9000}:9000', '${MINIO_CONSOLE_PORT:-9001}:9001']
+    ports: ['127.0.0.1:${MINIO_API_PORT:-9000}:9000', '127.0.0.1:${MINIO_CONSOLE_PORT:-9001}:9001']
     volumes: [arena-grid-minio:/data]
     healthcheck:
       test: ['CMD', 'mc', 'ready', 'local']
   mailpit:
-    image: axllent/mailpit:latest
-    ports: ['${MAILPIT_SMTP_PORT:-1025}:1025', '${MAILPIT_UI_PORT:-8025}:8025']
+    image: axllent/mailpit:v1.30.4
+    ports: ['127.0.0.1:${MAILPIT_SMTP_PORT:-1025}:1025', '127.0.0.1:${MAILPIT_UI_PORT:-8025}:8025']
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.160.0
+    command: ['--config=/etc/otelcol-contrib/config.yaml']
+    volumes:
+      - ./infra/otel-collector.yaml:/etc/otelcol-contrib/config.yaml:ro
+    ports: ['127.0.0.1:${OTEL_GRPC_PORT:-4317}:4317', '127.0.0.1:${OTEL_HTTP_PORT:-4318}:4318']
   api:
     build:
       context: .
@@ -47,10 +53,12 @@ services:
       JWT_ACCESS_TTL: ${JWT_ACCESS_TTL:-10m}
       JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
       COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
     ports: ['${API_PORT:-4000}:4000']
     depends_on:
       postgres: { condition: service_healthy }
       redis: { condition: service_healthy }
+      otel-collector: { condition: service_started }
     healthcheck:
       test: ['CMD', 'wget', '-qO-', 'http://localhost:4000/api/v1/health']
   worker:
@@ -61,9 +69,11 @@ services:
       NODE_ENV: ${NODE_ENV:-development}
       LOG_LEVEL: ${LOG_LEVEL:-debug}
       REDIS_URL: redis://redis:6379
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
     depends_on:
       postgres: { condition: service_healthy }
       redis: { condition: service_healthy }
+      otel-collector: { condition: service_started }
   web:
     build:
       context: .
