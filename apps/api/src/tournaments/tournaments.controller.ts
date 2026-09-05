@@ -1,11 +1,11 @@
-import { Body, Controller, Get, Param, Patch, Post, Query, Req } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, Patch, Post, Query, Req } from '@nestjs/common';
 import { TournamentsService } from './tournaments.service.js';
 import type { AuthenticatedRequest } from '../auth/access.guard.js';
 import { Public } from '../auth/public.decorator.js';
 
 @Controller('tournaments')
 export class TournamentsController {
-  constructor(private readonly tournaments: TournamentsService) {}
+  constructor(@Inject(TournamentsService) private readonly tournaments: TournamentsService) {}
 
   @Public()
   @Get()

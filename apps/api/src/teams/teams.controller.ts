@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Req } from '@nestjs/common';
+import { Body, Controller, Inject, Param, Post, Req } from '@nestjs/common';
 import { z } from 'zod';
 import type { AuthenticatedRequest } from '../auth/access.guard.js';
 import { TeamsService } from './teams.service.js';
@@ -12,7 +12,7 @@ const inviteInput = z.object({ inviteeUserId: z.uuid() });
 
 @Controller()
 export class TeamsController {
-  constructor(private readonly teams: TeamsService) {}
+  constructor(@Inject(TeamsService) private readonly teams: TeamsService) {}
   @Post('teams') create(@Req() req: AuthenticatedRequest, @Body() body: unknown) {
     return this.teams.create(req.user?.id ?? '', teamInput.parse(body));
   }

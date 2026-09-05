@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { z } from 'zod';
 import { AuthService } from './auth.service.js';
 import { Public } from './public.decorator.js';
@@ -8,7 +8,7 @@ const registration = credentials.extend({ username: z.string().regex(/^[a-zA-Z0-
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly auth: AuthService) {}
+  constructor(@Inject(AuthService) private readonly auth: AuthService) {}
 
   @Public()
   @Post('register')
