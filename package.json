@@ -16,6 +16,7 @@
     "dev:docker:down": "docker compose -f docker-compose.yml -f docker-compose.dev.yml down",
     "build": "node --env-file-if-exists=.env node_modules/turbo/bin/turbo run build",
     "build:prod": "node --env-file=.env.prod node_modules/turbo/bin/turbo run build",
+    "start": "node apps/api/dist/main.js",
     "db:seed:demo": "SEED_DEMO_DATA=true pnpm --filter @arena-grid/database db:seed",
     "typecheck": "turbo run typecheck",
     "lint": "eslint . --max-warnings=0",
