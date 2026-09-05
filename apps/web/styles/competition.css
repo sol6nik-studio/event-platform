@@ -457,6 +457,16 @@
     display: none;
   }
 
+  .headerProfileButton {
+    min-width: 42px;
+    padding-right: 5px;
+  }
+
+  .headerProfileCopy,
+  .headerProfileIcon {
+    display: none;
+  }
+
   .signInButton {
     min-width: 64px;
     padding-inline: 12px;

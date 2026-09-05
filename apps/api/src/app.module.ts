@@ -27,7 +27,6 @@ const databaseProvider = {
     databaseProvider,
     AuthService,
     TournamentsService,
-    AccessGuard,
     TeamsService,
     { provide: APP_GUARD, useClass: AccessGuard },
   ],

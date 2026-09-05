@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { LogIn, Plus, Search, UserRound } from 'lucide-react';
+import { Plus, Search } from 'lucide-react';
+import { HeaderAccountActions } from './header-account-actions';
 
 interface SiteHeaderProps {
   active?: 'home' | 'tournaments';
@@ -42,13 +43,7 @@ export function SiteHeader({ active, compact = false }: SiteHeaderProps) {
             <Plus size={17} />
             Создать турнир
           </Link>
-          <Link className="button buttonQuiet signInButton" href="/auth/sign-in">
-            <LogIn size={17} />
-            Войти
-          </Link>
-          <Link className="avatarButton" href="/profile" aria-label="Открыть профиль">
-            <UserRound size={18} />
-          </Link>
+          <HeaderAccountActions />
         </div>
       </div>
     </header>

@@ -18,11 +18,11 @@
     "build:prod": "node --env-file=.env.prod node_modules/turbo/bin/turbo run build",
     "db:seed:demo": "SEED_DEMO_DATA=true pnpm --filter @arena-grid/database db:seed",
     "typecheck": "turbo run typecheck",
-    "lint": "turbo run lint",
+    "lint": "eslint . --max-warnings=0",
     "test": "turbo run test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "pnpm format:check && turbo run lint typecheck test",
+    "check": "pnpm format:check && pnpm lint && turbo run typecheck test",
     "prepare": "husky",
     "skills:validate": "node scripts/validate-skills.mjs"
   },

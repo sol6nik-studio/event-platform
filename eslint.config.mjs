@@ -13,6 +13,8 @@ export default tseslint.config(
       '**/node_modules/**',
       '**/playwright-report/**',
       '**/test-results/**',
+      '**/.codex/**',
+      '**/.pnpm-store/**',
     ],
   },
   eslint.configs.recommended,
@@ -38,6 +40,15 @@ export default tseslint.config(
         { fixStyle: 'inline-type-imports', prefer: 'type-imports' },
       ],
       '@typescript-eslint/no-import-type-side-effects': 'error',
+    },
+  },
+  {
+    files: ['**/*.{mjs,cjs}'],
+    languageOptions: {
+      globals: {
+        console: 'readonly',
+        process: 'readonly',
+      },
     },
   },
   prettier,
