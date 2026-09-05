@@ -17,6 +17,17 @@ pnpm --filter @arena-grid/database db:seed
 pnpm dev
 ```
 
+Для полностью изолированного dev-окружения с PostgreSQL, Redis, MinIO, Mailpit, OpenTelemetry, API,
+worker и Next.js используйте Docker Compose. При старте отдельный `db-seed` применяет схему
+локальной базы и загружает демонстрационные данные:
+
+```bash
+pnpm dev:docker
+```
+
+Остановка окружения: `pnpm dev:docker:down`. Этот стек предназначен только для mock/demo данных и не
+должен подключаться к production storage или production database.
+
 API is exposed on `http://localhost:4000/api/v1`, web on `http://localhost:3000`, Swagger is
 reserved for `/api/v1/docs`, and Mailpit UI is `http://localhost:8025`.
 
@@ -70,6 +81,16 @@ Use `pnpm build:prod` to build with the private `.env.prod` file. For Compose in
 non-default file, use `docker compose --env-file .env.prod config` to review the resolved
 configuration first. The included Compose stack is intended for development and parity testing, not
 as a hardened production orchestrator.
+
+Для явного заполнения демонстрационных данных в отдельной production-like базе используйте только
+после подтверждения окружения и backup:
+
+```bash
+NODE_ENV=production SEED_DEMO_DATA=true pnpm --filter @arena-grid/database db:seed
+```
+
+Без `SEED_DEMO_DATA=true` seed в production завершается ошибкой. Данные seed являются
+синтетическими, а пароль demo-аккаунтов нельзя использовать в реальной эксплуатации.
 
 ## Workspace commands
 

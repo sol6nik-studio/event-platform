@@ -22,6 +22,10 @@ import {
 
 loadEnvironment({ path: fileURLToPath(new URL('../../../.env', import.meta.url)), quiet: true });
 
+if (process.env.NODE_ENV === 'production' && process.env.SEED_DEMO_DATA !== 'true') {
+  throw new Error('Demo seed is disabled in production. Set SEED_DEMO_DATA=true explicitly.');
+}
+
 const connectionString =
   process.env.DATABASE_URL ??
   'postgresql://arena_grid:arena_grid_local_only@localhost:5432/arena_grid?schema=public';

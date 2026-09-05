@@ -12,8 +12,11 @@
   },
   "scripts": {
     "dev": "node --env-file-if-exists=.env node_modules/turbo/bin/turbo run dev --parallel",
+    "dev:docker": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build",
+    "dev:docker:down": "docker compose -f docker-compose.yml -f docker-compose.dev.yml down",
     "build": "node --env-file-if-exists=.env node_modules/turbo/bin/turbo run build",
     "build:prod": "node --env-file=.env.prod node_modules/turbo/bin/turbo run build",
+    "db:seed:demo": "SEED_DEMO_DATA=true pnpm --filter @arena-grid/database db:seed",
     "typecheck": "turbo run typecheck",
     "lint": "turbo run lint",
     "test": "turbo run test",

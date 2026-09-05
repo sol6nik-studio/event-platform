@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json --noEmit false",
-    "dev": "tsc -p tsconfig.json --noEmit --watch --preserveWatchOutput",
+    "dev": "node --import tsx/esm src/main.ts",
     "lint": "eslint src --max-warnings=0",
     "test": "node --test",
     "typecheck": "tsc -p tsconfig.json --noEmit"
@@ -30,5 +30,8 @@
     "reflect-metadata": "catalog:",
     "rxjs": "catalog:",
     "zod": "catalog:"
+  },
+  "devDependencies": {
+    "tsx": "4.23.13"
   }
 }
